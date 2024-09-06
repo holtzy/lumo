@@ -1,0 +1,14 @@
+"0","library(tidyverse) "
+"0","library(hrbrthemes) # <1>"
+"0","library(viridis) # <2>"
+"2","Loading required package: viridisLite
+"
+"0","library(ggiraph)"
+"2","Registered S3 method overwritten by 'htmlwidgets':
+  method           from         
+  print.htmlwidget tools:rstudio
+"
+"0","library(patchwork) "
+"0","library(sf)"
+"2","Linking to GEOS 3.11.0, GDAL 3.5.3, PROJ 9.1.0; sf_use_s2() is TRUE
+"
