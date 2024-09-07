@@ -1,6 +1,11 @@
 ---
 title: "Lumo: a clean Quarto template"
-subtitle: "Check how the `lumo` quarto template looks like, and learn how to make it yours in less than 5 minutes. If you like Quarto, you'll love my list of <a href='https://www.productive-r-workflow.com/quarto-tricks'>tips and tricks</a>"
+subtitle: "
+Quarto is a stunning tool. It transforms your R or Python code in a very clean report that includes code, charts, explanation and everything else you would like to include.
+<br/>
+<code>Lumo</code> is a <b>quarto template</b>. It slightly modifies the default appearance of a Quarto document, to make it even more shiny, and fit your brand.
+<br/>
+This document demoes how a document made with <code>lumo</code> looks like, list its main features and explain how to use it in 3 minutes."
 format:
   lumo-html: 
     logo: "logo.png"
@@ -37,7 +42,7 @@ library(sf)
 1. this package provides my favorite `ggplot2` theme: `theme_ipsum()`
 2. because I was too lazy to find something better in the [R Color Finder](https://r-graph-gallery.com/color-palette-finder)!
 
-:::{.callout-note}
+:::{.callout}
 By the way, you should open the code chunk that is folded above. ⬆️
 There is a little stunning surprise on its right hand side.
 :::
@@ -178,14 +183,7 @@ datatable(iris, filter = "top")
 
 You can learn more about controlling the appearance of HTML output here: <https://quarto.org/docs/output-formats/html-basics.html>
 
-<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" >Session Information</button><div id="collapseOne" class="accordion-collapse collapse"><div>
 
-
-```{r}
-sessionInfo()
-```
-
-</div></div>
 
 
 
@@ -253,5 +251,24 @@ data %>%
 
 :::
 
+
+
+
+
+
+
+
+## Session Info
+
+When you make a Quarto doc, it is a good practice to include information about your working environment. This is straightforward, you just have to call the `sessionInfo()` info and all your R and package versions will be printed. This is a huge boost for reproducibility.
+
+<button type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" >Session Information</button><div id="collapseOne" class="accordion-collapse collapse"><div>
+
+
+```{r}
+sessionInfo()
+```
+
+</div></div>
 
 

@@ -17,3 +17,4 @@ contributes:
       css: style.css
       smooth-scroll: true
       code-annotations: hover
+      title-block-banner: true

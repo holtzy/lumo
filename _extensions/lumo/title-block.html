@@ -3,8 +3,11 @@
     --primary-color: $primary-color$;
   }
   .title-block-content {
+    position: relative;
     padding-top: 130px;
     padding-bottom: 130px;
+    max-width: 752px;
+    margin: auto;
   }
   .header-keyword {
     color: rgb(59, 59, 59);
@@ -19,6 +22,13 @@
     border: 0;
     right: 0;
   }
+  #particles-js {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+  }
 </style>
 
 <header id="title-block-header" style="position: relative">
@@ -26,6 +36,9 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
+
+  <!-- This is the div in which the particles will be included -->
+  <div id="particles-js"></div>
 
   <!-- Actual content on top of the particles-->
   <div class="title-block-content">
@@ -60,6 +73,14 @@
       <span class="header-keyword">Date: </span>$date$
     </p>
     $endif$
+
+    <!-- Particle.js script loaded from a CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+
+    <!-- use the particle js library with our own config (json file). -->
+    <script>
+      particlesJS.load("particles-js", "./particles.json");
+    </script>
   </div>
 </header>
 

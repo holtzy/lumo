@@ -42,7 +42,7 @@ p {
   line-height: 28px;
 }
 p:not(:first-child) {
-  margin-top: 1.5rem;
+  margin-top: 12px;
 }
 a {
   font-weight: 500;
@@ -66,6 +66,7 @@ ul > li {
   color: var(--primary-color);
   background-color: white;
   border-color: var(--primary-color);
+  border-radius: 4px;
 }
 .nav-pills .nav-link.active {
   color: white;
@@ -130,4 +131,20 @@ table.dataTable tbody th,
 table.dataTable tbody td {
   padding: 6px 10px;
   font-size: 12px;
+}
+
+/* ------------------------------------------- Callout ----------------- */
+div.callout.callout {
+  border: none;
+  padding: 0.4em 0.7em;
+  border-left: var(--primary-color) 4px solid;
+  background-color: color-mix(in srgb, var(--primary-color), transparent 95%);
+  border-radius: 0px;
+}
+
+button {
+  color: var(--primary-color);
+  background-color: white;
+  border: var(--primary-color) 1px solid;
+  border-radius: 1px;
 }
