@@ -1,8 +1,8 @@
 ---
-title: "Epurate: a clean Quarto template"
-subtitle: "Check how the `epurate` quarto template looks like, and learn how to make it yours in less than 5 minutes. If you like Quarto, you'll love my list of <a href='https://www.productive-r-workflow.com/quarto-tricks'>tips and tricks</a>"
+title: "Lumo: a clean Quarto template"
+subtitle: "Check how the `lumo` quarto template looks like, and learn how to make it yours in less than 5 minutes. If you like Quarto, you'll love my list of <a href='https://www.productive-r-workflow.com/quarto-tricks'>tips and tricks</a>"
 format:
-  epurate-html: 
+  lumo-html: 
     logo: "logo.png"
     github-repo: "https://www.github.com"
     primary-color: "red"
@@ -16,7 +16,7 @@ Quarto is probably my favorite tool in the R/Python universe. Transforming your 
 
 Even if the default appearance looks good, there are a few tweaks I always like to apply to push the report to the next level.
 
-This document aims at showcasing how a quarto document made with the `epurate` format looks like.
+This document aims at showcasing how a quarto document made with the `lumo` format looks like.
 
 ```{r, warning=F, message=F}
 library(tidyverse) 

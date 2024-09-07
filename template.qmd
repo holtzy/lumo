@@ -1,8 +1,8 @@
 ---
-title: "Epurate: a clean Quarto template"
-subtitle: "Check how the `epurate` quarto template looks like, and learn how to make it yours in less than 5 minutes. If you like Quarto, you'll love my list of <a href='https://www.productive-r-workflow.com/quarto-tricks'>tips and tricks</a>"
+title: "Lumo: a clean Quarto template"
+subtitle: "Check how the `lumo` quarto template looks like, and learn how to make it yours in less than 5 minutes. If you like Quarto, you'll love my list of <a href='https://www.productive-r-workflow.com/quarto-tricks'>tips and tricks</a>"
 format:
-  epurate-html: 
+  lumo-html: 
     logo: "logo.png"
     github-repo: "https://www.github.com"
     primary-color: "red"
@@ -16,7 +16,14 @@ Quarto is probably my favorite tool in the R/Python universe. Transforming your 
 
 Even if the default appearance looks good, there are a few tweaks I always like to apply to push the report to the next level.
 
-This document aims at showcasing how a quarto document made with the `epurate` format looks like.
+::: {.column-margin}
+
+Btw, you can learn how to master Quarto thanks to my online course: [Productive R Workflow](https://www.productive-r-workflow.com)
+
+:::
+
+
+This document aims at showcasing how a quarto document made with the `lumo` format looks like.
 
 ```{r, warning=F, message=F}
 library(tidyverse) 
@@ -37,7 +44,6 @@ There is a little stunning surprise on its right hand side.
 
 
 ## Everybody loves map ❤️
-
 Don't forget that you can add full width content, which can be very useful for instance for a nice interactive map made with leaflet.
 
 ```{r}
@@ -60,7 +66,7 @@ All right, many people know how to create interactive graphs with plotly. But di
 
 Pretty close from dark magic isn't.
 
-```{r}
+```{r, fig.cap="Figure: three graphs connected thanks to `ggiraph`"}
 
 # Read the full world map
 world_sf <- read_sf("https://raw.githubusercontent.com/holtzy/R-graph-gallery/master/DATA/world.geojson")
@@ -151,6 +157,23 @@ interactive_plot <- girafe_options(
 interactive_plot
 ```
 
+
+## Interactive table
+
+It is very easy to insert an interactive table in your document thanks to the `DT` package. The output allows to filter rows, search for something and sort using a specific columns!
+
+Install the library with `install.packages("DT")`. Then, just pass a dataframe to the `datatable()` function to get a stunning interactive output!
+
+```{r}
+library(DT)
+data(iris)
+
+# Make a table
+datatable(iris, filter = "top")
+```
+
+
+
 ## More Information
 
 You can learn more about controlling the appearance of HTML output here: <https://quarto.org/docs/output-formats/html-basics.html>
@@ -177,7 +200,7 @@ If you have several plots to make, each targeting something special in your data
 
 Always a good scatterplot
 
-```{r}
+```{r, fig.align='center'}
 ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species)) + 
     geom_point() +
     theme_ipsum()
@@ -187,7 +210,7 @@ ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species)) +
 
 You can also make a [boxplot](https://r-graph-gallery.com/89-box-and-scatter-plot-with-ggplot2.html), but please do not hide the underlying distribution! This is widely explain in my data-to-viz.com project in case you're not convinced 😋.
 
-```{r}
+```{r, fig.align='center'}
 # create a dataset
 data <- data.frame(
   name=c( rep("A",500), rep("B",500), rep("B",500), rep("C",20), rep('D', 100)  ),
@@ -211,6 +234,23 @@ data %>%
 
 ## Barplot
 Content that will show under first tab
+
+```{r, fig.align='center'}
+data %>%
+  ggplot( aes(x=name, y=value, fill=name)) +
+    geom_boxplot() +
+    scale_fill_viridis(discrete = TRUE, alpha=0.6) +
+    geom_jitter(color="black", size=0.4, alpha=0.9) +
+    theme_ipsum() +
+    theme(
+      legend.position="none",
+      plot.title = element_text(size=11)
+    ) +
+    ggtitle("A boxplot with jitter") +
+    xlab("")
+```
+
+
 :::
 
 

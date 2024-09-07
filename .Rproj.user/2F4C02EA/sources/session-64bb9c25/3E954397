@@ -1,6 +1,6 @@
 {
     "id": "3E954397",
-    "path": "~/Desktop/epurate/template.qmd",
+    "path": "~/Desktop/lumo/template.qmd",
     "project_path": "template.qmd",
     "type": "quarto_markdown",
     "hash": "0",
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "7,23",
+        "cursorPosition": "10,3",
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1725607829,
+    "lastKnownWriteTime": 1725609178,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1725607829690,
+    "last_content_update": 1725609178564,
     "read_only": false,
     "read_only_alternatives": []
 }
