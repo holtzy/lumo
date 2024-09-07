@@ -177,7 +177,17 @@ data(iris)
 datatable(iris, filter = "top")
 ```
 
+## A grey section
 
+It's always good to have a grey section. Makes the document breath a bit.
+
+
+<div class="cell page-columns page-full column-screen" style="background-color: grey">
+  Hello mate
+```{r}
+1+1
+```
+</div>
 
 ## More Information
 
@@ -188,7 +198,7 @@ You can learn more about controlling the appearance of HTML output here: <https:
 
 
 
-## This template is nothing withotu quarto tricks
+## Quarto tricks
 
 If you have several plots to make, each targeting something special in your dataset, you should consider using pills for that!
 
