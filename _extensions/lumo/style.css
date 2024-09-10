@@ -148,3 +148,11 @@ button {
   border: var(--primary-color) 1px solid;
   border-radius: 1px;
 }
+
+.grey-section {
+  background-color: #f8f9fa;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}

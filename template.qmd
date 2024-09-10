@@ -8,9 +8,10 @@ Quarto is a stunning tool. It transforms your R or Python code in a very clean r
 This document demoes how a document made with <code>lumo</code> looks like, list its main features and explain how to use it in 3 minutes."
 format:
   lumo-html: 
-    logo: "logo.png"
+    logo: "logo.png"                             # Path to your logo
     github-repo: "https://www.github.com"
-    primary-color: "red"
+    primary-color: "blue"
+    self-contained: true
 author: Holtz Yan
 date: last-modified
 ---
@@ -177,17 +178,19 @@ data(iris)
 datatable(iris, filter = "top")
 ```
 
+
 ## A grey section
 
+::: {.cell .page-columns .page-full .column-screen .grey-section}
 It's always good to have a grey section. Makes the document breath a bit.
 
+Let's use this space to render a little equation:
 
-<div class="cell page-columns page-full column-screen" style="background-color: grey">
-  Hello mate
-```{r}
-1+1
-```
-</div>
+$$
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+$$
+:::
+
 
 ## More Information
 
