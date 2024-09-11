@@ -42,13 +42,15 @@
 
   <!-- Actual content on top of the particles-->
   <div class="title-block-content">
+    <!-- Logo -->
+    $if(logo)$
     <img
       src="$logo$"
       alt="logo of company"
-      width="80px"
       height="80px"
       style="margin-bottom: 20px"
     />
+    $endif$
 
     <!-- Title -->
     $if(title)$
