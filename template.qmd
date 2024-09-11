@@ -13,6 +13,7 @@ format:
     github-repo: "https://www.github.com"        # Optional. Adds a github corner at the top right
     primary-color: "black"
     self-contained: true
+    is-particlejs-enabled: true                  # Optional: display interactive particles in the document header
 author: Holtz Yan
 date: last-modified
 ---
