@@ -1,17 +1,11 @@
 ---
-title: "Lumo: a clean Quarto template"
-subtitle: "
-Quarto is a powerful tool that transforms R or Python code into beautifully clean reports.
-<br/>
-`Lumo` is a __custom format__ for Quarto, enhancing the default appearance to make it even more polished and aligned with your brand.
-<br/>
-This document showcases how a lumo-styled document looks.
-"
+title: "A report for the Maryland Department of transportation"
+subtitle: "This document is a starter report that fits the branding of the <a href='https://mdot.maryland.gov/'>Maryland Department of Transportation</a>"
 format:
   lumo-html: 
     logo: "logo.png"                             # Optional. Path to a logo displayed above the title
     github-repo: "https://www.github.com"        # Optional. Adds a github corner at the top right
-    primary-color: "black"
+    primary-color: "#a31f37"
     self-contained: true
     is-particlejs-enabled: true                  # Optional: display interactive particles in the document header
 author: Holtz Yan
