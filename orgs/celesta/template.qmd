@@ -58,15 +58,47 @@ There is a little stunning surprise on its right hand side.
 :::
 
 
-## Main Features
+## Dataviz theme
 
-### Typography
+I strongly advise to create a dataviz theme that fits your company's brand. Here is one:
 
-You may have noticed the typography differs from the default Quarto style. I've also added __extra spacing__ above each title for better readability, and underlined them to make the headings stand out more.
+```{r}
+brand_theme <- function() {
+  theme_ipsum() +
+    theme(
+      plot.title = element_text(color = "red", size = 18, face = "bold"),
+      plot.subtitle = element_text(margin = margin(b = 20)),
+      axis.text.x = element_text(size = 7),
+      axis.text.y = element_text(size = 7),
+      plot.background = element_rect(fill = "#faf5f5", color = NA),
+      plot.caption = element_text(hjust = 0)
+    )
+}
+```
 
-### Header & Footer
+And now let's use it on a graph:
 
-The header is fully customized, complete with a fun GitHub corner linking to the original code. Plus, there are animated particles for a touch of whimsy. Scroll down, and you'll find a custom footer as well.
+```{r, fig.height=8, fig.height=6}
+# Create scatter plot
+ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
+  geom_point(size = 3) +
+  
+  # Add title, subtitle, and caption (footer)
+  labs(
+    title = "Sepal Length vs Sepal Width",
+    subtitle = "The relationship between sepal length and sepal width is very strong inside\neach species. It's worth noting that Setosa is very different, with a higher\nsepal width and lower sepal length on average",
+    caption = "Author: Yan Holtz\nData: coming from the batch #23 on the 3rd of October"
+  ) +
+  
+  # Add annotation
+  annotate("text", x = 7.5, y = 4.2, label = "Highest Sepal Width", color = "red", size = 4, hjust = 0) +
+  
+  # Customize the theme (optional)
+  brand_theme()
+
+
+```
+
 
 <hr/>
 
