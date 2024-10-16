@@ -1,16 +1,18 @@
 ---
-title: "A report for the Maryland Department of transportation"
-subtitle: "This document is a starter report that fits the branding of the <a href='https://mdot.maryland.gov/'>Maryland Department of Transportation</a>"
+title: "Lumo: a clean Quarto template for stunning data reports"
+subtitle: "This document showcases how a Quarto report made using the <code>Lumo</code> format looks like. It also demoes a few tips and tricks I 💜"
 format:
   lumo-html: 
     logo: "logo.png"                                     # Optional. Path to a logo displayed above the title
     github-repo: "https://github.com/holtzy/lumo"        # Optional. Adds a github corner at the top right
-    primary-color: "#a31f37"
+    primary-color: "#69b3a2"
     self-contained: true
     is-particlejs-enabled: true                          # Optional: display interactive particles in the document header
 author: Holtz Yan
 date: last-modified
 ---
+
+
 
 
 ## Introduction
