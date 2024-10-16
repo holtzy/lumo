@@ -8,6 +8,7 @@ format:
     primary-color: "#69b3a2"
     self-contained: true
     is-particlejs-enabled: true                          # Optional: display interactive particles in the document header
+    bg-image: ""                                         # Optional: link to an image for the header background
 author: Holtz Yan
 date: last-modified
 ---
