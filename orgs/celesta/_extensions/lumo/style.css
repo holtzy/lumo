@@ -92,10 +92,6 @@ ul.nav.nav-tabs {
   border-left: 1px solid var(--primary-color);
   color: var(--primary-color) !important;
 }
-.sidebar nav[role="doc-toc"] ul > li > a:hover,
-.sidebar nav[role="doc-toc"] ul > li > ul > li > a:hover {
-  color: var(--primary-color) !important;
-}
 #TOC {
   top: 50%;
   position: relative;
