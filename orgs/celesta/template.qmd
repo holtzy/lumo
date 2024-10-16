@@ -1,14 +1,14 @@
 ---
-title: "Lumo: a clean Quarto template for stunning data reports"
-subtitle: "This document showcases how a Quarto report made using the <code>Lumo</code> format looks like. It also demoes a few tips and tricks I 💜"
+title: "Soil Analysis"
+subtitle: "This document provides the latest results of a few analysis run by Celesta lab. It also showcases what's possible to do with <code>lumo</code>, a minimalist quarto template."
 format:
   lumo-html: 
     logo: "logo.png"                                     # Optional. Path to a logo displayed above the title
     github-repo: "https://github.com/holtzy/lumo"        # Optional. Adds a github corner at the top right
-    primary-color: "#69b3a2"
+    primary-color: "red"
     self-contained: true
-    is-particlejs-enabled: true                          # Optional: display interactive particles in the document header
-    bg-image: ""                                         # Optional: link to an image for the header background
+    is-particlejs-enabled: false                          # Optional: display interactive particles in the document header
+    bg-image: "bg-image.jpg"                                         # Optional: link to an image for the header background
 author: Holtz Yan
 date: last-modified
 ---
