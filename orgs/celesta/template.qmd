@@ -20,7 +20,7 @@ date: last-modified
 
 Quarto is probably my favorite tool in the R/Python universe. Transforming your code and thoughts into a stunning report in one click always blows my mind.
 
-While the default Quarto appearance **looks great**, there are [a few tweaks](https://www.productive-r-workflow.com/quarto-tricks) I always apply to elevate the report even further. Rather than manually adding them each time, I bundled everything into a custom format called `lumo`.
+While the default Quarto appearance **looks great**, there are [a few tweaks](https://www.productive-r-workflow.com/quarto-tricks) I always apply to elevate the report even further. Rather than manually adding them each time, I bundled everything into a custom format called [lumo](https://www.productive-r-workflow.com/r/bonus/lumo-quarto-template).
 
 
 ::: {.column-margin}
@@ -30,7 +30,7 @@ Btw, you can learn how to master Quarto thanks to my online course: [Productive 
 :::
 
 
-This document aims at showcasing how a quarto document made with the `lumo` format looks like.
+This document aims at showcasing how versatile the lumo format is. With a few tweaks, I made it **fit the brand** of a specific company.
 
 
 ## Load Packages
@@ -44,9 +44,7 @@ Notice that the code chunks are folded by default. You can adjust this behavior 
 library(tidyverse) 
 library(hrbrthemes) # <1>
 library(viridis) # <2>
-library(ggiraph)
 library(patchwork) 
-library(sf)
 ```
 
 1. this package provides my favorite `ggplot2` theme: `theme_ipsum()`
@@ -63,7 +61,12 @@ There is a little stunning surprise on its right hand side.
 I strongly advise to create a dataviz theme that fits your company's brand. Here is one:
 
 ```{r}
-brand_theme <- function() {
+scale_color_brand <- function() {
+  custom_palette <- c( "#00496FFF", "#0F85A0FF", "#EDD746FF", "#ED8B00FF", "#DD4124FF")
+  scale_color_manual(values = custom_palette)
+}
+
+theme_brand <- function() {
   theme_ipsum() +
     theme(
       plot.title = element_text(color = "red", size = 18, face = "bold"),
@@ -78,10 +81,11 @@ brand_theme <- function() {
 
 And now let's use it on a graph:
 
-```{r, fig.height=8, fig.height=6}
+```{r, fig.width=9, fig.height=7}
 # Create scatter plot
 ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
   geom_point(size = 3) +
+  scale_color_brand() +
   
   # Add title, subtitle, and caption (footer)
   labs(
@@ -94,13 +98,11 @@ ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
   annotate("text", x = 7.5, y = 4.2, label = "Highest Sepal Width", color = "red", size = 4, hjust = 0) +
   
   # Customize the theme (optional)
-  brand_theme()
-
-
+  theme_brand()
 ```
 
 
-<hr/>
+## Lumo features
 
 For a complete list of features, [visit the documentation](https://www.productive-r-workflow.com/r/bonus/lumo-quarto-template)!
 
@@ -119,109 +121,6 @@ leaflet() %>%
 ```
 
 
-## How It Works
-
-`Lumo` is a Quarto **custom format**. With a single command, you can add an `_extension` folder to your working directory, containing all the styles and content needed to create a report like this.
-
-It takes less than 28 seconds, and you can find all the details [here](https://www.productive-r-workflow.com/r/bonus/lumo-quarto-template).
-
-<hr/>
-
-By the way, did you know you can link graphs together using [ggiraph](https://r-graph-gallery.com/package/ggiraph.html)? Its syntax is quite similar to `ggplot2` and it produces stunning, interactive outputs. Try hovering over one of the charts below!
-
-Pretty close to magic, isn’t it?
-
-
-```{r, fig.cap="Figure: three graphs connected thanks to `ggiraph`"}
-
-# Read the full world map
-world_sf <- read_sf("https://raw.githubusercontent.com/holtzy/R-graph-gallery/master/DATA/world.geojson")
-world_sf <- world_sf %>%
-  filter(!name %in% c("Antarctica", "Greenland"))
-
-# Create a sample dataset
-happiness_data <- data.frame(
-  Country = c(
-    "France", "Germany", "United Kingdom",
-    "Japan", "China", "Vietnam",
-    "United States of America", "Canada", "Mexico"
-  ),
-  Continent = c(
-    "Europe", "Europe", "Europe",
-    "Asia", "Asia", "Asia",
-    "North America", "North America", "North America"
-  ),
-  Happiness_Score = rnorm(mean = 30, sd = 20, n = 9),
-  GDP_per_capita = rnorm(mean = 30, sd = 20, n = 9),
-  Social_support = rnorm(mean = 30, sd = 20, n = 9),
-  Healthy_life_expectancy = rnorm(mean = 30, sd = 20, n = 9)
-)
-
-# Join the happiness data with the full world map
-world_sf <- world_sf %>%
-  left_join(happiness_data, by = c("name" = "Country"))
-
-
-# Create the first chart (Scatter plot)
-p1 <- ggplot(world_sf, aes(
-  GDP_per_capita,
-  Happiness_Score,
-  tooltip = name,
-  data_id = Continent,
-  color = Continent
-)) +
-  geom_point_interactive(data = filter(world_sf, !is.na(Happiness_Score)), size = 4) +
-  theme_minimal() +
-  theme(
-    axis.title.x = element_blank(),
-    axis.title.y = element_blank(),
-    legend.position = "none"
-  )
-
-# Create the second chart (Bar plot)
-p2 <- ggplot(world_sf, aes(
-  x = reorder(name, Happiness_Score),
-  y = Happiness_Score,
-  tooltip = name,
-  data_id = Continent,
-  fill = Continent
-)) +
-  geom_col_interactive(data = filter(world_sf, !is.na(Happiness_Score))) +
-  coord_flip() +
-  theme_minimal() +
-  theme(
-    axis.title.x = element_blank(),
-    axis.title.y = element_blank(),
-    legend.position = "none"
-  )
-
-# Create the third chart (choropleth)
-p3 <- ggplot() +
-  geom_sf(data = world_sf, fill = "lightgrey", color = "lightgrey") +
-  geom_sf_interactive(
-    data = filter(world_sf, !is.na(Happiness_Score)),
-    aes(fill = Continent, tooltip = name, data_id = Continent)
-  ) +
-  coord_sf(crs = st_crs(3857)) +
-  theme_void() +
-  theme(
-    axis.title.x = element_blank(),
-    axis.title.y = element_blank(),
-    legend.position = "none"
-  )
-
-# Combine the plots
-combined_plot <- (p1 + p2) / p3 + plot_layout(heights = c(1, 2))
-
-# Create the interactive plot
-interactive_plot <- girafe(ggobj = combined_plot)
-interactive_plot <- girafe_options(
-  interactive_plot,
-  opts_hover(css = "fill:red;stroke:black;")
-)
-
-interactive_plot
-```
 
 
 ## Interactive table
@@ -279,17 +178,23 @@ For example, if you're creating multiple plots, each highlighting different aspe
 This is a good old scatterplot of the iris dataset. If you want to learn more about how to make graphs in R, visit my [R graph gallery](https://www.r-graph-gallery.com)!
 
 
-```{r, fig.align='center'}
+```{r, fig.align='center', fig.width=6, fig.height=6, fig.align='left'}
 ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species)) + 
     geom_point() +
-    theme_ipsum()
+    theme_brand() +
+    scale_color_brand() +
+    labs(
+      title = "Sepal Length vs Sepal Width",
+      subtitle = "Relationship between 2 numerical variables.",
+      caption = "Author: Yan Holtz\nData: coming from the batch #44 on the 3rd of October"
+    ) 
 ```
 
 ## Boxplot
 
 You can also make a [boxplot](https://r-graph-gallery.com/89-box-and-scatter-plot-with-ggplot2.html), but please do not hide the underlying distribution! This is widely explain in my data-to-viz.com project in case you're not convinced 😋. Check the next tab to get convinced!
 
-```{r, fig.align='center'}
+```{r, fig.align='center', fig.width=6, fig.height=6, fig.align='left'}
 # create a dataset
 data <- data.frame(
   name=c( rep("A",500), rep("B",500), rep("B",500), rep("C",20), rep('D', 100)  ),
@@ -300,32 +205,40 @@ data <- data.frame(
 data %>%
   ggplot( aes(x=name, y=value, fill=name)) +
     geom_boxplot() +
-    scale_fill_viridis(discrete = TRUE, alpha=0.6) +
-    theme_ipsum() +
     theme(
       legend.position="none",
       plot.title = element_text(size=11)
     ) +
-    ggtitle("A boxplot that hides the underlying distribution") +
-    xlab("")
+    xlab("") +
+    theme_brand() +
+    scale_color_brand() +
+    labs(
+      title = "A boxplot that hides the underlying distribution",
+      subtitle = "Never hide the underlying samples on a boxplot. You never know what's behind!? (check the next tab: with jittering)",
+      caption = "Author: Yan Holtz\nData: coming from the batch #44 on the 3rd of October"
+    ) 
 ```
 
 ## Jittering
 See what's happening now that the individual data points are visible! Would be a shame to miss this.
 
-```{r, fig.align='center'}
+```{r, fig.align='center', fig.width=6, fig.height=6, fig.align='left'}
 data %>%
   ggplot( aes(x=name, y=value, fill=name)) +
     geom_boxplot() +
-    scale_fill_viridis(discrete = TRUE, alpha=0.6) +
     geom_jitter(color="black", size=0.4, alpha=0.9) +
-    theme_ipsum() +
     theme(
       legend.position="none",
       plot.title = element_text(size=11)
     ) +
-    ggtitle("A boxplot with jitter") +
-    xlab("")
+    xlab("") +
+    theme_brand() +
+    scale_color_brand() +
+    labs(
+      title = "A boxplot with jitter",
+      subtitle = "This boxplot does NOT hide the underlying distribution.\nIt is much more powerful and reveals some massive differences between groups!",
+      caption = "Author: Yan Holtz\nData: coming from the batch #44 on the 3rd of October"
+    ) 
 ```
 
 
