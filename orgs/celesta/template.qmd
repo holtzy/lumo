@@ -214,7 +214,7 @@ data %>%
     scale_color_brand() +
     labs(
       title = "A boxplot that hides the underlying distribution",
-      subtitle = "Never hide the underlying samples on a boxplot. You never know what's behind!? (check the next tab: with jittering)",
+      subtitle = "Never hide the underlying samples on a boxplot. You never know what's behind!?\n(check the next tab: with jittering)",
       caption = "Author: Yan Holtz\nData: coming from the batch #44 on the 3rd of October"
     ) 
 ```

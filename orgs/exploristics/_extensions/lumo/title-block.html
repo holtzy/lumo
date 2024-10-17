@@ -29,6 +29,14 @@
     width: 100%;
     height: 100%;
   }
+  .bg-image {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 </style>
 
 <header id="title-block-header" style="position: relative">
@@ -36,6 +44,16 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
+
+  <!-- This is the div in which the background image will be included -->
+  $if(bg-image)$
+  <img
+    src="$bg-image$"
+    alt="background image used for decoration"
+    class="bg-image"
+    style="opacity: 0.3"
+  />
+  $endif$
 
   <!-- This is the div in which the particles will be included -->
   $if(is-particlejs-enabled)$
@@ -83,10 +101,7 @@
 
     <!-- use the particle js library with our own config (json file). -->
     <script>
-      particlesJS.load(
-        "particles-js",
-        "https://raw.githubusercontent.com/holtzy/lumo/main/_extensions/lumo/particles.json"
-      );
+      particlesJS.load("particles-js", "_extensions/lumo/particles.json");
     </script>
   </div>
 </header>

@@ -1,36 +1,35 @@
 ---
-title: "Data Analysis at Exploristics"
-subtitle: "This document is a starter report that fits the branding of the <a href='https://exploristics.com'>Exploristics</a> company.<br/>Exploristics is a biostatistics company providing advanced <b>data analytics solutions</b> to the pharmaceutical, healthcare, and life sciences industries.​"
+title: "Exploristics report"
+subtitle: "This document provides the latest results of a few analysis run by Exploristics. It also showcases what's possible to do with <code>lumo</code>, a minimalist quarto template."
 format:
-  lumo-html:
-    logo: "logo.jpeg"                             # Optional. Path to a logo displayed above the title
-    github-repo: "https://exploristics.com"        # Optional. Adds a github corner at the top right
+  lumo-html: 
+    logo: "logo.jpeg"                                     # Optional. Path to a logo displayed above the title
+    github-repo: "https://github.com/holtzy/lumo"        # Optional. Adds a github corner at the top right
     primary-color: "#b5cef7"
     self-contained: true
-    is-particlejs-enabled: true                  # Optional: display interactive particles in the document header
+    is-particlejs-enabled: true                          # Optional: display interactive particles in the document header background
 author: Holtz Yan
 date: last-modified
-params:
-  primaryColor: "#b5cef7"
 ---
+
+
 
 
 ## Introduction
 
-`Lumo` is a Quarto [custom format](https://github.com/holtzy/lumo). Basically a few tweaks around the default appearance of a Quarto document, ready to be used for your own project.
+Quarto is probably my favorite tool in the R/Python universe. Transforming your code and thoughts into a stunning report in one click always blows my mind.
 
-This document shows how Lumo can be adapted to fit the branding of [Exploritics](https://exploristics.com)
+While the default Quarto appearance **looks great**, there are [a few tweaks](https://www.productive-r-workflow.com/quarto-tricks) I always apply to elevate the report even further. Rather than manually adding them each time, I bundled everything into a custom format called [lumo](https://www.productive-r-workflow.com/r/bonus/lumo-quarto-template).
 
 
 ::: {.column-margin}
 
-Btw, you can learn how to master Quarto with my [Productive R Workflow](https://www.productive-r-workflow.com) project!
+Btw, you can learn how to master Quarto thanks to my online course: [Productive R Workflow](https://www.productive-r-workflow.com)
 
 :::
 
-Make a dataviz theme?
 
-
+This document aims at showcasing how versatile the lumo format is. With a few tweaks, I made it **fit the brand** of a specific company.
 
 
 ## Load Packages
@@ -41,43 +40,72 @@ Notice that the code chunks are folded by default. You can adjust this behavior 
 
 
 ```{r, warning=F, message=F}
-library(tidyverse)
+library(tidyverse) 
 library(hrbrthemes) # <1>
-library(sf)
-library(leaflet)
+library(viridis) # <2>
+library(patchwork) 
 ```
 
 1. this package provides my favorite `ggplot2` theme: `theme_ipsum()`
+2. because I was too lazy to find something better in the [R Color Finder](https://r-graph-gallery.com/color-palette-finder)!
 
 :::{.callout}
 By the way, you should open the code chunk that is folded above. ⬆️
 There is a little stunning surprise on its right hand side.
 :::
 
+
 ## Dataviz theme
 
-```{r}
-library(ggplot2)
-library(hrbrthemes)
+I strongly advise to create a dataviz theme that fits your company's brand. Here is one:
 
-dataviz_theme <- function() {
-  theme_ipsum() +
-    theme(
-      plot.title = element_text(color = params$primaryColor, size = 18, face = "bold"),
-      axis.text.x = element_text(size = 7),
-      axis.text.y = element_text(size = 7),
-      panel.background = element_rect(fill = scales::alpha(params$primaryColor, 0.1), color = NA),  # 50% opacity
-      plot.background = element_rect(fill = scales::alpha(params$primaryColor, 0.1)),  # Set plot background color
-      panel.grid = element_line(color = "transparent")                   # Optional: make grid lines transparent
-    )
+```{r}
+scale_color_brand <- function() {
+  custom_palette <- c( "#00496FFF", "#0F85A0FF", "#EDD746FF", "#ED8B00FF", "#DD4124FF")
+  scale_color_manual(values = custom_palette)
 }
 
-theme_set(dataviz_theme())
+theme_brand <- function() {
+  theme_ipsum() +
+    theme(
+      plot.title = element_text(color = "#3877f4", size = 18, face = "bold"),
+      plot.subtitle = element_text(margin = margin(b = 20)),
+      axis.text.x = element_text(size = 7),
+      axis.text.y = element_text(size = 7),
+      plot.background = element_rect(fill = "#f3f6fc", color = NA),
+      plot.caption = element_text(hjust = 0)
+    )
+}
 ```
 
-## Where is Exploristics?
+And now let's use it on a graph:
 
-Let's find out thanks to `leafet`
+```{r, fig.width=9, fig.height=7}
+# Create scatter plot
+ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
+  geom_point(size = 3) +
+  scale_color_brand() +
+  
+  # Add title, subtitle, and caption (footer)
+  labs(
+    title = "Sepal Length vs Sepal Width",
+    subtitle = "The relationship between sepal length and sepal width is very strong inside\neach species. It's worth noting that Setosa is very different, with a higher\nsepal width and lower sepal length on average",
+    caption = "Author: Yan Holtz\nData: coming from the batch #23 on the 3rd of October"
+  ) +
+  
+  # Add annotation
+  annotate("text", x = 7.5, y = 4.2, label = "Highest Sepal Width", color = "red", size = 4, hjust = 0) +
+  
+  # Customize the theme (optional)
+  theme_brand()
+```
+
+
+## Lumo features
+
+For a complete list of features, [visit the documentation](https://www.productive-r-workflow.com/r/bonus/lumo-quarto-template)!
+
+Oh and since we're here, did you know you can easily include a full width interactive map with `leaflet` in a quarto doc? 😍
 ```{r}
 #| column: screen
 #| out-width: 100%
@@ -88,10 +116,9 @@ library(leaflet)
 # Make a map
 leaflet() %>%
   addTiles() %>% # Add default OpenStreetMap map tiles
-  addMarkers(lng = -5.9302, lat = 54.5968, popup = "Exploristics Headquarters") %>%
-  setView(lng = -5.9302, lat = 54.5968, zoom = 10)  # Change zoom level here
-
+  addMarkers(lng = 174.768, lat = -36.852, popup = "The birthplace of R")
 ```
+
 
 
 
@@ -150,16 +177,23 @@ For example, if you're creating multiple plots, each highlighting different aspe
 This is a good old scatterplot of the iris dataset. If you want to learn more about how to make graphs in R, visit my [R graph gallery](https://www.r-graph-gallery.com)!
 
 
-```{r, fig.align='center'}
-ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species)) +
-    geom_point() 
+```{r, fig.align='center', fig.width=6, fig.height=6, fig.align='left'}
+ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species)) + 
+    geom_point() +
+    theme_brand() +
+    scale_color_brand() +
+    labs(
+      title = "Sepal Length vs Sepal Width",
+      subtitle = "Relationship between 2 numerical variables.",
+      caption = "Author: Yan Holtz\nData: coming from the batch #44 on the 3rd of October"
+    ) 
 ```
 
 ## Boxplot
 
 You can also make a [boxplot](https://r-graph-gallery.com/89-box-and-scatter-plot-with-ggplot2.html), but please do not hide the underlying distribution! This is widely explain in my data-to-viz.com project in case you're not convinced 😋. Check the next tab to get convinced!
 
-```{r, fig.align='center'}
+```{r, fig.align='center', fig.width=6, fig.height=6, fig.align='left'}
 # create a dataset
 data <- data.frame(
   name=c( rep("A",500), rep("B",500), rep("B",500), rep("C",20), rep('D', 100)  ),
@@ -174,14 +208,20 @@ data %>%
       legend.position="none",
       plot.title = element_text(size=11)
     ) +
-    ggtitle("A boxplot that hides the underlying distribution") +
-    xlab("")
+    xlab("") +
+    theme_brand() +
+    scale_color_brand() +
+    labs(
+      title = "A boxplot that hides the underlying distribution",
+      subtitle = "Never hide the underlying samples on a boxplot. You never know what's behind!? (check the next tab: with jittering)",
+      caption = "Author: Yan Holtz\nData: coming from the batch #44 on the 3rd of October"
+    ) 
 ```
 
 ## Jittering
 See what's happening now that the individual data points are visible! Would be a shame to miss this.
 
-```{r, fig.align='center'}
+```{r, fig.align='center', fig.width=6, fig.height=6, fig.align='left'}
 data %>%
   ggplot( aes(x=name, y=value, fill=name)) +
     geom_boxplot() +
@@ -190,8 +230,14 @@ data %>%
       legend.position="none",
       plot.title = element_text(size=11)
     ) +
-    ggtitle("A boxplot with jitter") +
-    xlab("")
+    xlab("") +
+    theme_brand() +
+    scale_color_brand() +
+    labs(
+      title = "A boxplot with jitter",
+      subtitle = "This boxplot does NOT hide the underlying distribution.\nIt is much more powerful and reveals some massive differences between groups!",
+      caption = "Author: Yan Holtz\nData: coming from the batch #44 on the 3rd of October"
+    ) 
 ```
 
 
@@ -212,7 +258,7 @@ Learn how to use and how to customize `Lumo` [here](https://www.productive-r-wor
 
 ## Session Info
 
-When creating a Quarto document, it's a good practice to include details about your **working environment**.
+When creating a Quarto document, it's a good practice to include details about your **working environment**. 
 
 This is easy to do—just call `sessionInfo()`, and it will print out all your R and package versions. This simple step greatly enhances **reproducibility**.
 

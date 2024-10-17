@@ -1,0 +1,229 @@
+---
+title: "Data Analysis at Exploristics"
+subtitle: "This document is a starter report that fits the branding of the <a href='https://exploristics.com'>Exploristics</a> company.<br/>Exploristics is a biostatistics company providing advanced <b>data analytics solutions</b> to the pharmaceutical, healthcare, and life sciences industries.​"
+format:
+  lumo-html:
+    logo: "logo.jpeg"                             # Optional. Path to a logo displayed above the title
+    github-repo: "https://exploristics.com"        # Optional. Adds a github corner at the top right
+    primary-color: "#b5cef7"
+    self-contained: true
+    is-particlejs-enabled: true                  # Optional: display interactive particles in the document header
+author: Holtz Yan
+date: last-modified
+params:
+  primaryColor: "#b5cef7"
+---
+
+
+## Introduction
+
+`Lumo` is a Quarto [custom format](https://github.com/holtzy/lumo). Basically a few tweaks around the default appearance of a Quarto document, ready to be used for your own project.
+
+This document shows how Lumo can be adapted to fit the branding of [Exploritics](https://exploristics.com)
+
+
+::: {.column-margin}
+
+Btw, you can learn how to master Quarto with my [Productive R Workflow](https://www.productive-r-workflow.com) project!
+
+:::
+
+Make a dataviz theme?
+
+
+
+
+## Load Packages
+
+Make sure to load **all your packages** at the start of your document for clarity and consistency.
+
+Notice that the code chunks are folded by default. You can adjust this behavior with the `code-fold` option in the document's YAML header.
+
+
+```{r, warning=F, message=F}
+library(tidyverse)
+library(hrbrthemes) # <1>
+library(sf)
+library(leaflet)
+```
+
+1. this package provides my favorite `ggplot2` theme: `theme_ipsum()`
+
+:::{.callout}
+By the way, you should open the code chunk that is folded above. ⬆️
+There is a little stunning surprise on its right hand side.
+:::
+
+## Dataviz theme
+
+```{r}
+library(ggplot2)
+library(hrbrthemes)
+
+dataviz_theme <- function() {
+  theme_ipsum() +
+    theme(
+      plot.title = element_text(color = params$primaryColor, size = 18, face = "bold"),
+      axis.text.x = element_text(size = 7),
+      axis.text.y = element_text(size = 7),
+      panel.background = element_rect(fill = scales::alpha(params$primaryColor, 0.1), color = NA),  # 50% opacity
+      plot.background = element_rect(fill = scales::alpha(params$primaryColor, 0.1)),  # Set plot background color
+      panel.grid = element_line(color = "transparent")                   # Optional: make grid lines transparent
+    )
+}
+
+theme_set(dataviz_theme())
+```
+
+## Where is Exploristics?
+
+Let's find out thanks to `leafet`
+```{r}
+#| column: screen
+#| out-width: 100%
+
+# Load the library.
+library(leaflet)
+
+# Make a map
+leaflet() %>%
+  addTiles() %>% # Add default OpenStreetMap map tiles
+  addMarkers(lng = -5.9302, lat = 54.5968, popup = "Exploristics Headquarters") %>%
+  setView(lng = -5.9302, lat = 54.5968, zoom = 10)  # Change zoom level here
+
+```
+
+
+
+## Interactive table
+
+It is very easy to insert an interactive table in your document thanks to the `DT` package. The output allows to filter rows, search for something and sort using a specific columns!
+
+Install the library with `install.packages("DT")`. Then, just pass a dataframe to the `datatable()` function to get a stunning interactive output!
+
+```{r}
+library(DT)
+data(iris)
+
+# Make a table
+datatable(iris, filter = "top")
+```
+
+::: {.column-margin}
+<br/><br/><br/><br/><br/><br/>
+I've added a bit of CSS to make the font smaller on DT tables by the way 🙂
+:::
+
+
+
+## A grey section
+
+::: {.cell .page-columns .page-full .column-screen .grey-section}
+It's always good to have a grey section. Makes the document breath a bit. I've added a little utility class in `Lumo` to make sure you can make sections like this very easily. Check the [documentation](https://www.productive-r-workflow.com/r/bonus/lumo-quarto-template)!
+
+Let's use this space to render a little equation:
+
+$$
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+$$
+:::
+
+
+
+
+
+## Quarto Tricks
+
+`Lumo` is a great format, but to get the most out of it, you’ll need to master a few Quarto tricks!
+
+The good news? I’ve compiled my 30+ favorite tips [in one place](https://www.productive-r-workflow.com/quarto-tricks). Just spend 30 minutes, and you'll be up to speed with all of them!
+
+<hr/>
+
+For example, if you're creating multiple plots, each highlighting different aspects of your dataset, consider using *pills* to organize them!
+
+
+::: {.panel-tabset .nav-pills}
+
+## Scatterplot
+
+This is a good old scatterplot of the iris dataset. If you want to learn more about how to make graphs in R, visit my [R graph gallery](https://www.r-graph-gallery.com)!
+
+
+```{r, fig.align='center'}
+ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species)) +
+    geom_point() 
+```
+
+## Boxplot
+
+You can also make a [boxplot](https://r-graph-gallery.com/89-box-and-scatter-plot-with-ggplot2.html), but please do not hide the underlying distribution! This is widely explain in my data-to-viz.com project in case you're not convinced 😋. Check the next tab to get convinced!
+
+```{r, fig.align='center'}
+# create a dataset
+data <- data.frame(
+  name=c( rep("A",500), rep("B",500), rep("B",500), rep("C",20), rep('D', 100)  ),
+  value=c( rnorm(500, 10, 5), rnorm(500, 13, 1), rnorm(500, 18, 1), rnorm(20, 25, 4), rnorm(100, 12, 1) )
+)
+
+# Plot
+data %>%
+  ggplot( aes(x=name, y=value, fill=name)) +
+    geom_boxplot() +
+    theme(
+      legend.position="none",
+      plot.title = element_text(size=11)
+    ) +
+    ggtitle("A boxplot that hides the underlying distribution") +
+    xlab("")
+```
+
+## Jittering
+See what's happening now that the individual data points are visible! Would be a shame to miss this.
+
+```{r, fig.align='center'}
+data %>%
+  ggplot( aes(x=name, y=value, fill=name)) +
+    geom_boxplot() +
+    geom_jitter(color="black", size=0.4, alpha=0.9) +
+    theme(
+      legend.position="none",
+      plot.title = element_text(size=11)
+    ) +
+    ggtitle("A boxplot with jitter") +
+    xlab("")
+```
+
+
+:::
+
+
+
+
+## More Information
+
+Learn how to use and how to customize `Lumo` [here](https://www.productive-r-workflow.com/r/bonus/lumo-quarto-template).
+
+
+
+
+
+
+
+## Session Info
+
+When creating a Quarto document, it's a good practice to include details about your **working environment**.
+
+This is easy to do—just call `sessionInfo()`, and it will print out all your R and package versions. This simple step greatly enhances **reproducibility**.
+
+
+<button type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" >Session Information</button><div id="collapseOne" class="accordion-collapse collapse"><div>
+
+
+```{r}
+sessionInfo()
+```
+
+</div></div>
+
+
